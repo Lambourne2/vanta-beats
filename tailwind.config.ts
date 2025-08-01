@@ -61,7 +61,13 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				/* Vanta custom colors */
+				'vanta-black': 'hsl(var(--vanta-black))',
+				'vanta-grey': 'hsl(var(--vanta-grey))',
+				'vanta-white': 'hsl(var(--vanta-white))',
+				'vanta-glow': 'hsl(var(--vanta-glow))',
+				'vanta-accent-hover': 'hsl(var(--vanta-accent-hover))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

@@ -30,6 +30,11 @@ const mainNavItems = [
   { title: "Library", url: "/library", icon: Library },
 ];
 
+const quickActions = [
+  { title: "Create Project", action: "create", icon: Plus },
+  { title: "Recent", action: "recent", icon: Music },
+];
+
 const recentProjects = [
   { name: "EP 2025", tracks: 5 },
   { name: "Dark Synthwave", tracks: 8 },

@@ -25,7 +25,7 @@ export function ProjectCard({
 
   return (
     <Card 
-      className="bg-card border-border hover:bg-secondary/50 transition-all duration-300 cursor-pointer group"
+      className="bg-card border-border hover:bg-secondary/50 transition-all duration-300 cursor-pointer group animate-fade-in hover:shadow-lg hover:shadow-vanta-glow/20 hover:-translate-y-1"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}

@@ -68,12 +68,12 @@ export function VantaPlayer() {
           <Button variant="ghost" size="sm" className="text-vanta-grey hover:text-vanta-white">
             <SkipBack className="w-5 h-5" />
           </Button>
-          <Button
-            variant="default"
-            size="sm"
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="w-8 h-8 rounded-full bg-vanta-white text-vanta-black hover:bg-vanta-grey hover:text-vanta-white"
-          >
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="w-10 h-10 rounded-full bg-vanta-white text-vanta-black hover:bg-vanta-grey hover:text-vanta-white transition-all duration-300 hover:scale-110 shadow-lg"
+            >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
           </Button>
           <Button variant="ghost" size="sm" className="text-vanta-grey hover:text-vanta-white">

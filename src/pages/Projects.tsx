@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Grid, List, Plus, Search, Filter } from "lucide-react";
+import { Grid, List, Plus, Search, Filter, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProjectCard } from "@/components/ProjectCard";
+import { CreateProjectModal } from "@/components/CreateProjectModal";
+import { VisionBoard } from "@/components/VisionBoard";
 
 const mockProjects = [
   {
@@ -51,13 +53,53 @@ const mockProjects = [
 ];
 
 export default function Projects() {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'vision'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
+  const [createModalOpen, setCreateModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [projects, setProjects] = useState(mockProjects);
 
-  const filteredProjects = mockProjects.filter(project =>
+  const filteredProjects = projects.filter(project =>
     project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     project.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleCreateProject = (projectData: any) => {
+    const newProject = {
+      id: Date.now().toString(),
+      ...projectData,
+      trackCount: 0,
+      lastModified: "Just now"
+    };
+    setProjects(prev => [newProject, ...prev]);
+  };
+
+  const handleProjectClick = (projectId: string) => {
+    setSelectedProject(projectId);
+    setViewMode('vision');
+  };
+
+  // Show vision board if a project is selected
+  if (selectedProject && viewMode === 'vision') {
+    const project = projects.find(p => p.id === selectedProject);
+    if (project) {
+      return (
+        <div>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              setSelectedProject(null);
+              setViewMode('grid');
+            }}
+            className="mb-4 text-vanta-grey hover:text-vanta-white"
+          >
+            ← Back to Projects
+          </Button>
+          <VisionBoard projectId={selectedProject} projectName={project.name} />
+        </div>
+      );
+    }
+  }
 
   return (
     <div className="p-6 pb-24">
@@ -70,7 +112,10 @@ export default function Projects() {
           </p>
         </div>
         
-        <Button className="bg-vanta-grey hover:bg-vanta-accent-hover text-vanta-white">
+        <Button 
+          onClick={() => setCreateModalOpen(true)}
+          className="bg-vanta-grey hover:bg-vanta-accent-hover text-vanta-white transition-all hover:scale-105"
+        >
           <Plus className="w-4 h-4 mr-2" />
           New Project
         </Button>
@@ -120,7 +165,7 @@ export default function Projects() {
             <ProjectCard
               key={project.id}
               {...project}
-              onClick={() => console.log('Opening project:', project.name)}
+              onClick={() => handleProjectClick(project.id)}
             />
           ))}
         </div>
@@ -129,7 +174,8 @@ export default function Projects() {
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="flex items-center gap-4 p-4 bg-card border border-border rounded-md hover:bg-secondary/50 transition-colors cursor-pointer"
+              className="flex items-center gap-4 p-4 bg-card border border-border rounded-md hover:bg-secondary/50 transition-colors cursor-pointer animate-fade-in"
+              onClick={() => handleProjectClick(project.id)}
             >
               <div className="w-12 h-12 rounded bg-muted flex items-center justify-center">
                 {project.coverUrl ? (
@@ -166,6 +212,12 @@ export default function Projects() {
           </Button>
         </div>
       )}
+      
+      <CreateProjectModal
+        open={createModalOpen}
+        onOpenChange={setCreateModalOpen}
+        onCreateProject={handleCreateProject}
+      />
     </div>
   );
 }
